@@ -60,7 +60,7 @@ void bersih() {
 }
 
 void kepala() {
-    cout << " \t\t\APLIKASI MANAJEMEN DATA KARYAWAN\n\t\t    PT. RIND BERSAMA SUKSES \n";
+    cout << " \t\t\\APLIKASI MANAJEMEN DATA KARYAWAN\n\t\t    PT. RIND BERSAMA SUKSES \n";
     cout << "==============================================================\n";
 }
 
