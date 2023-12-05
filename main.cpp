@@ -6,21 +6,21 @@ using namespace std;
 
 // Deklarasi fungsi
 void menu();
-void menu2 ();
+void masuk();
+void daftar();
+void keluar();
 void bersih();
 void kepala();
-void daftar();
-void keluar ();
 void simpanS();
 void baca_data();
-void baca_pass();  // Deklarasi fungsi baca_pass
-void halamanSetelahDaftar(); // Deklarasi fungsi halamanSetelahDaftar
+void baca_pass();
+void menu2();
+void halamanSetelahDaftar();
 
 int dex = 0;
 int jumStruct = 10;
 
 struct data_kar {
-    // Definisi struktur untuk data_kar
     string jabatan;
     string nama;
     int umur;
@@ -33,7 +33,6 @@ struct data_kar {
 };
 
 struct data_temp {
-    // Definisi struktur untuk data_temp
     string jabatan;
     string nama;
     int umur;
@@ -45,8 +44,6 @@ struct data_temp {
 
 data_kar karyawan[10];
 data_temp temp[1];
-
-
 
 int main() {
     do {
@@ -73,11 +70,7 @@ void menu() {
     baca_pass();
     dataku.close();
 
-    string username, password;
     int pilih;
-    int login;
-    int i = 1;
-    char a;
     cout << "||                      MENU UTAMA                          ||\n";
     cout << "==============================================================\n";
     cout << "[1] Login \n";
@@ -89,37 +82,7 @@ void menu() {
 
     switch (pilih) {
         case 1:
-
-            bersih();
-            kepala();
-            cout << "||                          LOGIN                           ||\n";
-            cout << "==============================================================\n";
-            cout << " Username : ";
-            cin >> username;
-            cout << " Password : ";
-            cin >> password;
-
-            login = 0;
-            for (int s = 0; s < jumStruct; s++) {
-                if (username == karyawan[s].user && password == karyawan[s].pass) {
-                    login = 1;
-                }
-            }
-
-            if (login == 1) {
-                cout << "Anda Berhasil Login" << endl;
-            } else {
-                i = i + 1;
-                cout << "\nUsername atau Password Salah!" << endl;
-                cout << endl;
-                cout << "Apakah anda ingin mencoba lagi? (y)  ";
-                cin >> a;
-                bersih();
-                kepala();
-                return menu ();
-            }
-            bersih();
-            return menu2();
+            masuk();
             break;
         case 2:
             daftar();
@@ -132,7 +95,58 @@ void menu() {
     }
 }
 
-// Implementasi fungsi daftar
+void masuk() {
+    string username, password;
+    int login;
+    int i = 1;
+    char a;
+
+    bersih();
+    kepala();
+    cout << "||                          LOGIN                           ||\n";
+    cout << "==============================================================\n";
+    cout << " Username : ";
+    cin >> username;
+    cout << " Password : ";
+    cin >> password;
+
+    login = 0;
+    for (int s = 0; s < jumStruct; s++) {
+        if (username == karyawan[s].user && password == karyawan[s].pass) {
+            login = 1;
+        }
+    }
+
+    if (login == 1) {
+        cout << "Anda Berhasil Login" << endl;
+        bersih();
+        menu2();
+
+    } else {
+        i = i + 1;
+        cout << "\nUsername atau Password Salah!" << endl;
+        cout << endl;
+
+        // Pilihan untuk login lagi atau kembali ke menu awal
+        cout << "Opsi: \n";
+        cout << "1. Coba login lagi\n";
+        cout << "2. Kembali ke Menu Utama\n";
+        cout << "Masukkan opsi pilihan anda: ";
+        cin >> a;
+
+        if (a == '1') {
+            bersih();
+            kepala();
+            masuk(); // Login lagi
+        } else {
+            cout << "Pilihan tidak valid. Kembali ke Menu Utama." << endl;
+            bersih();
+            kepala();
+            menu(); // Kembali ke menu utama
+        }
+    }
+}
+
 void daftar() {
     bersih();
     kepala();
@@ -146,7 +160,7 @@ void daftar() {
             cin >> karyawan[i].user;
             cout << " Password: ";
             cin >> karyawan[i].pass;
-            dex = i;  // Atur nilai dex agar sesuai dengan indeks data terakhir yang dimasukkan
+            dex = i;
             break;
         }
     }
@@ -155,17 +169,18 @@ void daftar() {
 
     cout << "============ Akun anda telah berhasil dibuat! ============\n\n";
     cout << "Tekan Enter untuk kembali ke Menu Utama...";
-    cin.ignore(); // Membersihkan buffer sebelum menunggu input Enter
-    cin.get();    // Menunggu input Enter
-    bersih();     // Bersihkan konsol setelah Enter ditekan
+    cin.ignore();
+    cin.get();
+    bersih();
+    kepala();
+    return menu();
 }
 
-void keluar () {
+void keluar() {
     cout << "\n\nTekan tombol apapun untuk keluar dari program...\n";
 }
 
-void menu2()
-{
+void menu2() {
     ifstream infile;
     infile.open("file.dat", ios::in | ios::out | ios::app);
     baca_data();
@@ -185,20 +200,18 @@ void menu2()
     cin >> pilih;
 }
 
-// Implementasi fungsi baca_pass
 void baca_pass() {
     // Tambahkan implementasi sesuai kebutuhan
 }
 
-// Implementasi fungsi bersihkanKonsol
 void bersihkanKonsol() {
     // Tambahkan implementasi sesuai kebutuhan
 }
 
-// Implementasi fungsi simpanS
 void simpanS() {
     // Tambahkan implementasi sesuai kebutuhan
 }
 
-void baca_data () {
+void baca_data() {
+    // Tambahkan implementasi sesuai kebutuhan
 }
