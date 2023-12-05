@@ -11,7 +11,8 @@ void daftar();
 void keluar();
 void bersih();
 void kepala();
-void simpanS();
+void simpan();
+void simpan2();
 void baca_data();
 void baca_pass();
 void menu2();
@@ -169,7 +170,7 @@ void daftar() {
         }
     }
 
-    simpanS();
+    simpan();
 
     cout << "============ Akun anda telah berhasil dibuat! ============\n\n";
     cout << "Tekan Enter untuk kembali ke Menu Utama...";
@@ -251,7 +252,34 @@ void cari() {
 }
 
 void tambah() {
-    // Implementation of the 'tambah' function
+    bersih();
+    kepala();
+    for (int i = 0; i < jumStruct; i++)
+    {
+        if (karyawan[i].nama == "")
+        {
+            cout << "\nTambah data: \n";
+            cout << "Nama: ";
+            cin >> karyawan[i].nama;
+            cout << "Umur: ";
+            cin >> karyawan[i].umur;
+            cout << "Gender: ";
+            cin >> karyawan[i].jk;
+            cout << "Alamat: ";
+            cin >> karyawan[i].alamat;
+            cout << "Status: ";
+            cin >> karyawan[i].status;
+            cout << "Jabatan: ";
+            cin >> karyawan[i].jabatan;
+            break;
+        }
+    }
+    dex++;
+    simpan2();
+    cout << "========== Data berhasil ditambahkan! ==========\n\n";
+    system ("pause"); // untuk pause agar pengguna bisa melohat output diatas terlebih dahulu
+    bersih();
+
 }
 
 void tampil() {
@@ -262,9 +290,39 @@ void baca_pass() {
     // Tambahkan implementasi sesuai kebutuhan
 }
 
+// buat simpan data username dan password
+void simpan()
+{
+    ofstream outfile;
+    outfile.open("file2.dat");
+    for (int i = 0; i < jumStruct; i++)
+    {
+        if (karyawan[i].user != "")
+        {
+            outfile << karyawan[i].user << "|";
+            outfile << karyawan[i].pass << "|" << endl;
+        }
+    }
+    outfile.close();
+}
 
-void simpanS() {
-    // Tambahkan implementasi sesuai kebutuhan
+// simpan2 ini buat simpan data karyawan
+void simpan2() {
+    ofstream outfile;
+    outfile.open("file.dat");
+    for (int i = 0; i < jumStruct; i++)
+    {
+        if (karyawan[i].nama != "")
+        {
+            outfile << karyawan[i].nama << "|";
+            outfile << karyawan[i].umur << "|";
+            outfile << karyawan[i].jk << "|";
+            outfile << karyawan[i].alamat << "|";
+            outfile << karyawan[i].jabatan << "|";
+            outfile << karyawan[i].status << "|" << endl;
+        }
+    }
+    outfile.close();
 }
 
 void baca_data() {
