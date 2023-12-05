@@ -15,7 +15,6 @@ void simpanS();
 void baca_data();
 void baca_pass();
 void menu2();
-void halamanSetelahDaftar();
 
 int dex = 0;
 int jumStruct = 10;
@@ -56,11 +55,16 @@ int main() {
 }
 
 void bersih() {
-    system("cls");
+    #ifdef _WIN32
+        system("cls");  // For Windows
+    #else
+        system("clear");  // For Unix-like systems
+    #endif
 }
 
+
 void kepala() {
-    cout << " \t\t\\APLIKASI MANAJEMEN DATA KARYAWAN\n\t\t    PT. RIND BERSAMA SUKSES \n";
+    cout << " \t\t\APLIKASI MANAJEMEN DATA KARYAWAN\n\t\t    PT. RIND BERSAMA SUKSES \n";
     cout << "==============================================================\n";
 }
 
@@ -258,9 +262,6 @@ void baca_pass() {
     // Tambahkan implementasi sesuai kebutuhan
 }
 
-void bersihkanKonsol() {
-    // Tambahkan implementasi sesuai kebutuhan
-}
 
 void simpanS() {
     // Tambahkan implementasi sesuai kebutuhan
