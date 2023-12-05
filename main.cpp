@@ -180,24 +180,78 @@ void keluar() {
     cout << "\n\nTekan tombol apapun untuk keluar dari program...\n";
 }
 
+   void cari();
+   void tambah();
+   void tampil();
+
 void menu2() {
+
+   bool urut = false;
+
+   char balik;
+
     ifstream infile;
     infile.open("file.dat", ios::in | ios::out | ios::app);
     baca_data();
     infile.close();
     kepala();
+
+
     cout << "||                       Pilih Menu                        ||\n";
     cout << "=============================================================\n";
-    cout << "[1] Lihat Semua Data\n";
-    cout << "[2] Cari Data\n";
-    cout << "[3] Tambah Data\n";
+    cout << "[1] Cari Data Karyawan\n";
+    cout << "[2] Tambah Data Karyawan\n";
+    cout << "[3] Lihat Semua Data Karyawan\n";
     cout << "[4] Urutkan Nama Ascending\n";
     cout << "[5] Logout\n";
     cout << "[6] Exit\n";
 
-    int pilih = 0;
+
+
+   int pilih = 0;
     cout << "\nPilih Menu: ";
     cin >> pilih;
+    switch (pilih)
+    {
+    case 1:
+        cari();
+        break;
+    case 2:
+        tambah();
+        return menu2();
+        break;
+    case 3:
+        tampil();
+        cout << "Kembali ke menu? (y/n)";
+        cin >> balik;
+        if (balik == 'y')
+        {
+            return menu2();
+        }
+        break;
+    case 4:
+        urut = true;
+        return menu2();
+        break;
+    case 5:
+        return menu();
+        break;
+    case 6:
+        bersih();
+        exit(0);
+    }
+}
+
+void cari() {
+    // Implementation of the 'cari' function
+}
+
+void tambah() {
+    // Implementation of the 'tambah' function
+}
+
+void tampil() {
+    // Implementation of the 'tampil' function
 }
 
 void baca_pass() {
