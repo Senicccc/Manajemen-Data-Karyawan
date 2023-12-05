@@ -203,7 +203,7 @@ void menu2() {
     kepala();
 
 
-    cout << "||                       Pilih Menu                        ||\n";
+    cout << "||                       PILIH MENU                        ||\n";
     cout << "=============================================================\n";
     cout << "[1] Cari Data Karyawan\n";
     cout << "[2] Tambah Data Karyawan\n";
@@ -276,6 +276,8 @@ void cari() {
         {
             bersih();
             kepala();
+            cout << "||                      PENCARIAN DATA                      ||\n";
+            cout << "==============================================================\n";
             cout << "Data "
                  << "\"" << karyawan[i].nama << "\""
                  << " ditemukan\n\n";
