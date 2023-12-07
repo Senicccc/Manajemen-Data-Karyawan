@@ -491,8 +491,8 @@ void tampil() {
          << setw(8) << left << "Gender"
          << setw(5) << left << "Umur"
          << setw(13) << left << "Alamat"
-         << setw(10) << left << "Status"
-         << setw(10) << left << "Jabatan" << endl;
+         << setw(10) << left << "Jabatan"
+         << setw(10) << left << "Status" << endl;
     cout << "==============================================================\n";
     for (i = 0; i < jumStruct; i++)
     {
