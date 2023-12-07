@@ -1,5 +1,5 @@
 #include <iostream>
-#include <fstream>
+#include <fstream> // untuk membaca/menulis file dataku.txt
 #include <sstream>
 #include <iomanip> // input output manipulator
 
@@ -20,6 +20,7 @@ void menu2();
 
 int dex = 0;
 int jumStruct = 10;
+bool urut = false;
 
 struct data_kar {
     string jabatan;
@@ -28,7 +29,7 @@ struct data_kar {
     string goldar;
     string alamat;
     string status;
-    string jk;
+    string gender;
     string user;
     string pass;
 };
@@ -72,7 +73,7 @@ void kepala() {
 
 void menu() {
     ifstream dataku;
-    dataku.open("dataku.txt", ios::in | ios::out | ios::app);
+    dataku.open("dataku2.txt", ios::in | ios::out | ios::app);
     baca_pass();
     dataku.close();
 
@@ -88,9 +89,11 @@ void menu() {
 
     switch (pilih) {
         case 1:
+            bersih();
             masuk();
             break;
         case 2:
+            bersih();
             daftar();
             break;
         case 3:
@@ -196,21 +199,21 @@ void menu2() {
 
    char balik;
 
-    ifstream infile;
-    infile.open("file.dat", ios::in | ios::out | ios::app);
+    ifstream dataku;
+    dataku.open("dataku.txt", ios::in | ios::out | ios::app);
     baca_data();
-    infile.close();
+    dataku.close();
     kepala();
 
 
-    cout << "||                       PILIH MENU                        ||\n";
-    cout << "=============================================================\n";
+    cout << "||                       PILIH MENU                         ||\n";
+    cout << "==============================================================\n";
     cout << "[1] Cari Data Karyawan\n";
     cout << "[2] Tambah Data Karyawan\n";
     cout << "[3] Lihat Semua Data Karyawan\n";
     cout << "[4] Urutkan Nama Ascending\n";
     cout << "[5] Logout\n";
-    cout << "[6] Exit\n";
+    cout << "[6] Exit Program\n";
 
 
 
@@ -222,18 +225,15 @@ void menu2() {
     case 1:
         bersih();
         cari();
-        bersih();
         break;
     case 2:
         bersih();
         tambah();
-        bersih();
         return menu2();
         break;
     case 3:
         bersih();
         tampil();
-        bersih();
         cout << "Kembali ke menu? (y/n)";
         cin >> balik;
         if (balik == 'y')
@@ -244,7 +244,6 @@ void menu2() {
         }
         break;
     case 4:
-        urut = true;
         return menu2();
         break;
     case 5:
@@ -294,7 +293,7 @@ void cari() {
             {
                 cout << setw(5) << left << i + 1 << setw(13) << left;
                 cout << karyawan[i].nama << setw(8) << left;
-                cout << karyawan[i].jk << setw(5) << left;
+                cout << karyawan[i].gender << setw(5) << left;
                 cout << karyawan[i].umur << setw(13) << left;
                 cout << karyawan[i].alamat << setw(10) << left;
                 cout << karyawan[i].jabatan << setw(10) << left;
@@ -344,7 +343,7 @@ void cari() {
             cout << "Umur: ";
             cin >> karyawan[ind].umur;
             cout << "Gender: ";
-            cin >> karyawan[ind].jk;
+            cin >> karyawan[ind].gender;
             cout << "Alamat: ";
             cin >> karyawan[ind].alamat;
             cout << "Status: ";
@@ -414,77 +413,241 @@ void terHapus()
 void tambah() {
     bersih();
     kepala();
-    for (int i = 0; i < jumStruct; i++)
-    {
-        if (karyawan[i].nama == "")
-        {
+    cout << "||                        TAMBAH DATA                       ||\n";
+    cout << "==============================================================\n";
+
+    cout << "Pilih Jabatan:\n";
+    cout << "1. Manager\n";
+    cout << "2. Supervisor\n";
+    cout << "3. Specialist\n";
+    cout << "4. Administrator\n";
+    cout << "5. Staff\n";
+    cout << "Pilihan: ";
+
+    int pilihJabatan;
+    cin >> pilihJabatan;
+
+    string jabatan;
+
+    // Map the user's choice to the corresponding job position
+    switch (pilihJabatan) {
+        case 1:
+            jabatan = "Manager";
+            break;
+        case 2:
+            jabatan = "Supervisor";
+            break;
+        case 3:
+            jabatan = "Specialist";
+            break;
+        case 4:
+            jabatan = "Administrator";
+            break;
+        case 5:
+            jabatan = "Staff";
+            break;
+        default:
+            bersih();
+            return menu2();
+            break;
+    }
+
+    for (int i = 0; i < jumStruct; i++) {
+        if (karyawan[i].nama == "") {
             cout << "\nTambah data: \n";
             cout << "Nama: ";
             cin >> karyawan[i].nama;
             cout << "Umur: ";
             cin >> karyawan[i].umur;
             cout << "Jenis Kelamin: ";
-            cin >> karyawan[i].jk;
+            cin >> karyawan[i].gender;
             cout << "Alamat: ";
             cin >> karyawan[i].alamat;
             cout << "Status: ";
             cin >> karyawan[i].status;
-            cout << "Jabatan: ";
-            cin >> karyawan[i].jabatan;
+            karyawan[i].jabatan = jabatan;
+
             break;
         }
     }
-    dex++;
-    simpan2();
-    cout << "========== Data berhasil ditambahkan! ==========\n\n";
-    system ("pause"); // untuk pause agar pengguna bisa melohat output diatas terlebih dahulu
-    bersih();
 
+    dex++;
+    simpan();  // Save the data to the file
+    cout << "========== Data berhasil ditambahkan! ==========\n\n";
+    system("pause"); // untuk pause agar pengguna bisa melihat output di atas terlebih dahulu
+    bersih();
+    return menu2();
 }
 
 void tampil() {
-    // Implementation of the 'tampil' function
+    baca_data();
+    ifstream dataku;
+    dataku.open("dataku.txt", ios::in | ios::out | ios::app);
+    int i;
+    int no = 1;
+    kepala();
+    cout << setw(5) << left << "No"
+         << setw(13) << left << "Nama"
+         << setw(8) << left << "Gender"
+         << setw(5) << left << "Umur"
+         << setw(13) << left << "Alamat"
+         << setw(10) << left << "Status"
+         << setw(10) << left << "Jabatan" << endl;
+    cout << "==============================================================\n";
+    for (i = 0; i < jumStruct; i++)
+    {
+        if (urut == true)
+        {
+            for (int j = i + 1; j < (dex-1); j++)
+            {
+                if (karyawan[i].nama > karyawan[j].nama)
+                {
+                    temp[1].nama = karyawan[j].nama;
+                    karyawan[j].nama = karyawan[i].nama;
+                    karyawan[i].nama = temp[1].nama;
+
+                    temp[1].gender = karyawan[j].gender;
+                    karyawan[j].gender = karyawan[i].gender;
+                    karyawan[i].gender = temp[1].gender;
+
+                    temp[1].umur = karyawan[j].umur;
+                    karyawan[j].umur = karyawan[i].umur;
+                    karyawan[i].umur = temp[1].umur;
+
+                    temp[1].alamat = karyawan[j].alamat;
+                    karyawan[j].alamat = karyawan[i].alamat;
+                    karyawan[i].alamat = temp[1].alamat;
+
+                    temp[1].jabatan = karyawan[j].jabatan;
+                    karyawan[j].jabatan = karyawan[i].jabatan;
+                    karyawan[i].jabatan = temp[1].jabatan;
+
+                    temp[1].status = karyawan[j].status;
+                    karyawan[j].status = karyawan[i].status;
+                    karyawan[i].status = temp[1].status;
+                }
+            }
+        }
+
+        if (karyawan[i].nama != "")
+        {
+            cout << setw(5) << left << no << setw(13) << left;
+            cout << karyawan[i].nama << setw(8) << left;
+            cout << karyawan[i].gender << setw(5) << left;
+            cout << karyawan[i].umur << setw(13) << left;
+            cout << karyawan[i].alamat << setw(10) << left;
+            cout << karyawan[i].jabatan<< setw(10) << left;
+            cout << karyawan[i].status << endl;
+            no++;
+cout << "==============================================================\n";
+        }
+    }
+    simpan();
+    cout << endl;
+    dataku.close();
+    urut = false;
 }
 
-void baca_pass() {
-    // Tambahkan implementasi sesuai kebutuhan
+void parse_baris(string baris, int index)
+{
+    stringstream ss_baris(baris);
+    string tem_umur;
+    while (ss_baris.good())
+    {
+        getline(ss_baris, karyawan[index].nama, '|');
+        getline(ss_baris, tem_umur, '|');
+        getline(ss_baris, karyawan[index].gender, '|');
+        getline(ss_baris, karyawan[index].alamat, '|');
+        getline(ss_baris, karyawan[index].jabatan, '|');
+        getline(ss_baris, karyawan[index].status, '|');
+        karyawan[index].umur = atoi(tem_umur.c_str());
+        index++;
+    }
+    dex = index;
+}
+
+void parse_pas(string baris, int index)
+{
+    stringstream ss_baris(baris);
+    while (ss_baris.good())
+    {
+        getline(ss_baris, karyawan[index].user, '|');
+        getline(ss_baris, karyawan[index].pass, '|');
+        index++;
+    }
+    dex = index;
+}
+
+void baca_data()
+{
+    string data_perbaris;
+    int no_index = 0;
+    ifstream dataku;
+    dataku.open("dataku.txt", ios::app | ios::in | ios::out);
+    if (dataku.fail())
+    {
+        cout << "File Tidak Ada Dan Tidak Dapat Membuat File " << endl;
+    }
+    else if (dataku.is_open())
+    {
+        while (getline(dataku, data_perbaris))
+        {
+            parse_baris(data_perbaris, no_index);
+            no_index++;
+        }
+    }
+}
+void baca_pass()
+{
+    string data_perbaris;
+    int no_index = 0;
+    ifstream dataku;
+    dataku.open("dataku2.txt", ios::app | ios::in | ios::out);
+    if (dataku.fail())
+    {
+        cout << "File Tidak Ada Dan Tidak Dapat Membuat File " << endl;
+    }
+    else if (dataku.is_open())
+    {
+        while (getline(dataku, data_perbaris))
+        {
+            parse_pas(data_perbaris, no_index);
+            no_index++;
+        }
+    }
 }
 
 // buat simpan data username dan password
-void simpan()
+void simpan2()
 {
-    ofstream outfile;
-    outfile.open("file2.dat");
+    ofstream outdataku;
+    outdataku.open("dataku2.txt");
     for (int i = 0; i < jumStruct; i++)
     {
         if (karyawan[i].user != "")
         {
-            outfile << karyawan[i].user << "|";
-            outfile << karyawan[i].pass << "|" << endl;
+            outdataku << karyawan[i].user << "|";
+            outdataku << karyawan[i].pass << "|" << endl;
         }
     }
-    outfile.close();
+    outdataku.close();
 }
 
 // simpan2 ini buat simpan data karyawan
-void simpan2() {
-    ofstream outfile;
-    outfile.open("file.dat");
+void simpan() {
+    ofstream outdataku;
+    outdataku.open("dataku.txt");
     for (int i = 0; i < jumStruct; i++)
     {
         if (karyawan[i].nama != "")
         {
-            outfile << karyawan[i].nama << "|";
-            outfile << karyawan[i].umur << "|";
-            outfile << karyawan[i].jk << "|";
-            outfile << karyawan[i].alamat << "|";
-            outfile << karyawan[i].jabatan << "|";
-            outfile << karyawan[i].status << "|" << endl;
+            outdataku << karyawan[i].nama << "|";
+            outdataku << karyawan[i].umur << "|";
+            outdataku << karyawan[i].gender << "|";
+            outdataku << karyawan[i].alamat << "|";
+            outdataku << karyawan[i].jabatan << "|";
+            outdataku << karyawan[i].status << "|" << endl;
         }
     }
-    outfile.close();
-}
-
-void baca_data() {
-    // Tambahkan implementasi sesuai kebutuhan
+    outdataku.close();
 }
