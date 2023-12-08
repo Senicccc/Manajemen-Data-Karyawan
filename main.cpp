@@ -277,6 +277,7 @@ void gajiKaryawan() {
 
     for (int i = 0; i < dex; i++) {
         if (key == karyawan[i].nama) {
+            ketemu = true;
             bersih();
             kepala();
             cout << "||                      Gaji Karyawan                       ||\n";
@@ -336,7 +337,6 @@ void gajiKaryawan() {
                 uanglembur = 42000;
                 lembur = uanglembur * jamlembur;
             }
-
             cout << "Gaji Pokok          : Rp." << gajipokok << endl;
             cout << "Uang Lembur         : Rp." << lembur << endl;
             cout << "Tunjangan Jabatan   : Rp." << tunjabatan << endl;
@@ -345,7 +345,6 @@ void gajiKaryawan() {
             cout << "==============================================================\n";
             cout << "Total upah          : Rp." << gajipokok+tunjabatan+tunkeluarga+tunkesehatan+lembur << endl;
             cout << "==============================================================\n";
-           ketemu = true;
         }
         if (!ketemu) {
         cout << "Mohon maaf, nama yang anda cari tidak ditemukan.\n";
@@ -388,8 +387,8 @@ void cari() {
                  << setw(8) << left << "Gender"
                  << setw(5) << left << "Umur"
                  << setw(10) << left << "Alamat"
-                 << setw(10) << left << "Jabatan"
-                 << setw(10) << left << "Status" << endl;
+                 << setw(10) << left << "Status"
+                 << setw(10) << left << "Jabatan" << endl;
             cout << "==============================================================\n";
 
             if (karyawan[i].nama != "")
@@ -399,8 +398,8 @@ void cari() {
                 cout << karyawan[i].gender << setw(5) << left;
                 cout << karyawan[i].umur << setw(10) << left;
                 cout << karyawan[i].alamat << setw(10) << left;
-                cout << karyawan[i].jabatan << setw(10) << left;
-                cout << karyawan[i].status << endl;
+                cout << karyawan[i].status << setw(10) << left;
+                cout << karyawan[i].jabatan << endl;
             }
             ind = i;
             ketemu = true;
@@ -409,7 +408,7 @@ void cari() {
     if (ketemu == true)
     {
         int pilih;
-        cout << "\n===============================================================\n";
+        cout << "\n==============================================================\n";
         cout << "[1] Hapus Data\n";
         cout << "[2] Edit Data\n";
         cout << "[3] Kembali ke Menu Pilihan\n";
@@ -425,7 +424,7 @@ void cari() {
             cin >> hapus;
             if (hapus == 'y')
             {
-                for (int i = 1; i < dex; i++)
+                for (int i = ind; i < dex; i++)
                 {
                     karyawan[i] = karyawan[i + 1];
                 }
@@ -595,8 +594,8 @@ void tampil() {
          << setw(8) << left << "Gender"
          << setw(5) << left << "Umur"
          << setw(10) << left << "Alamat"
-         << setw(10) << left << "Jabatan"
-         << setw(10) << left << "Status" << endl;
+         << setw(10) << left << "Status"
+         << setw(10) << left << "Jabatan" << endl;
     cout << "==============================================================\n";
     for (i = 0; i < jumStruct; i++)
     {
@@ -622,13 +621,14 @@ void tampil() {
                     karyawan[j].alamat = karyawan[i].alamat;
                     karyawan[i].alamat = temp[1].alamat;
 
+                    temp[1].status = karyawan[j].status;
+                    karyawan[j].status = karyawan[i].status;
+                    karyawan[i].status = temp[1].status;
+
                     temp[1].jabatan = karyawan[j].jabatan;
                     karyawan[j].jabatan = karyawan[i].jabatan;
                     karyawan[i].jabatan = temp[1].jabatan;
 
-                    temp[1].status = karyawan[j].status;
-                    karyawan[j].status = karyawan[i].status;
-                    karyawan[i].status = temp[1].status;
                 }
             }
         }
@@ -640,8 +640,8 @@ void tampil() {
             cout << karyawan[i].gender << setw(5) << left;
             cout << karyawan[i].umur << setw(10) << left;
             cout << karyawan[i].alamat << setw(10) << left;
-            cout << karyawan[i].jabatan<< setw(10) << left;
-            cout << karyawan[i].status << endl;
+            cout << karyawan[i].status<< setw(10) << left;
+            cout << karyawan[i].jabatan << endl;
             no++;
 cout << "==============================================================\n";
         }
@@ -682,23 +682,20 @@ void parse_pas(string baris, int index)
     dex = index;
 }
 
-void baca_data()
-{
+void baca_data() {
     string data_perbaris;
     int no_index = 0;
     ifstream dataku;
     dataku.open("dataku.txt", ios::app | ios::in | ios::out);
-    if (dataku.fail())
-    {
-        cout << "File Tidak Ada Dan Tidak Dapat Membuat File " << endl;
-    }
-    else if (dataku.is_open())
-    {
-        while (getline(dataku, data_perbaris))
-        {
+
+    if (!dataku.is_open()) {
+        cout << "Gagal membuka file dataku.txt untuk pembacaan" << endl;
+    } else {
+        while (getline(dataku, data_perbaris)) {
             parse_baris(data_perbaris, no_index);
             no_index++;
         }
+        dataku.close();
     }
 }
 void baca_pass()
@@ -722,36 +719,41 @@ void baca_pass()
 }
 
 // buat simpan data username dan password
-void simpan2()
-{
+void simpan2() {
     ofstream outdataku;
     outdataku.open("dataku2.txt");
-    for (int i = 0; i < jumStruct; i++)
-    {
-        if (karyawan[i].user != "")
-        {
-            outdataku << karyawan[i].user << "|";
-            outdataku << karyawan[i].pass << "|" << endl;
+
+    if (!outdataku.is_open()) {
+        cout << "Gagal membuka file dataku2.txt untuk penyimpanan" << endl;
+    } else {
+        for (int i = 0; i < jumStruct; i++) {
+            if (karyawan[i].user != "") {
+                outdataku << karyawan[i].user << "|";
+                outdataku << karyawan[i].pass << "|" << endl;
+            }
         }
+        outdataku.close();
     }
-    outdataku.close();
 }
 
 // simpan2 ini buat simpan data karyawan
 void simpan() {
     ofstream outdataku;
     outdataku.open("dataku.txt");
-    for (int i = 0; i < jumStruct; i++)
-    {
-        if (karyawan[i].nama != "")
-        {
-            outdataku << karyawan[i].nama << "|";
-            outdataku << karyawan[i].umur << "|";
-            outdataku << karyawan[i].gender << "|";
-            outdataku << karyawan[i].alamat << "|";
-            outdataku << karyawan[i].jabatan << "|";
-            outdataku << karyawan[i].status << "|" << endl;
+
+    if (!outdataku.is_open()) {
+        cout << "Gagal membuka file dataku.txt untuk penyimpanan" << endl;
+    } else {
+        for (int i = 0; i < jumStruct; i++) {
+            if (karyawan[i].nama != "") {
+                outdataku << karyawan[i].nama << "|";
+                outdataku << karyawan[i].umur << "|";
+                outdataku << karyawan[i].gender << "|";
+                outdataku << karyawan[i].alamat << "|";
+                outdataku << karyawan[i].jabatan << "|";
+                outdataku << karyawan[i].status << "|" << endl;
+            }
         }
+        outdataku.close();
     }
-    outdataku.close();
 }
