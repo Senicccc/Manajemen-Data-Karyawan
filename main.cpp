@@ -28,9 +28,8 @@ struct data_kar {
     string jabatan;
     string nama;
     int umur;
-    string goldar;
     string alamat;
-    string status;
+    string pendidikan;
     string gender;
     string user;
     string pass;
@@ -40,9 +39,8 @@ struct data_temp {
     string jabatan;
     string nama;
     int umur;
-    string goldar;
     string alamat;
-    string status;
+    string pendidikan;
     string gender;
 };
 
@@ -391,7 +389,7 @@ void cari() {
                 cout << karyawan[i].gender << setw(5) << left;
                 cout << karyawan[i].umur << setw(10) << left;
                 cout << karyawan[i].alamat << setw(10) << left;
-                cout << karyawan[i].status << setw(10) << left;
+                cout << karyawan[i].pendidikan << setw(10) << left;
                 cout << karyawan[i].jabatan << endl;
             }
             ind = i;
@@ -442,7 +440,7 @@ void cari() {
             cout << "Asal: ";
             cin >> karyawan[ind].alamat;
             cout << "Status: ";
-            cin >> karyawan[ind].status;
+            cin >> karyawan[ind].pendidikan;
             cout << "Jabatan: ";
             cin >> karyawan[ind].jabatan;
             simpan();
@@ -513,7 +511,7 @@ void tambah() {
     cout << "1. Manager\n";
     cout << "2. Supervisor\n";
     cout << "3. Specialist\n";
-    cout << "4. Administrator\n";
+    cout << "4. Operator\n";
     cout << "5. Staff\n";
     cout << "6. Cleaning Service\n";
     cout << "Pilihan: ";
@@ -535,7 +533,7 @@ void tambah() {
             jabatan = "Specialist";
             break;
         case 4:
-            jabatan = "Administrator";
+            jabatan = "Operator";
             break;
         case 5:
             jabatan = "Staff";
@@ -560,7 +558,7 @@ void tambah() {
             cout << "Asal Kota: ";
             cin >> karyawan[i].alamat;
             cout << "Pendidikan: ";
-            cin >> karyawan[i].status;
+            cin >> karyawan[i].pendidikan;
             karyawan[i].jabatan = jabatan;
 
             break;
@@ -583,10 +581,10 @@ void tampil() {
     int no = 1;
     kepala();
     cout << setw(5) << left << "No"
-         << setw(11) << left << "Nama"
-         << setw(10) << left << "Gender"
-         << setw(6) << left << "Umur"
-         << setw(8) << left << "Asal"
+         << setw(8) << left << "Nama"
+         << setw(8) << left << "Gender"
+         << setw(8) << left << "Umur"
+         << setw(10) << left << "Asal"
          << setw(13) << left << "Pendidikan"
          << setw(10) << left << "Jabatan" << endl;
     cout << "==============================================================\n";
@@ -614,9 +612,9 @@ void tampil() {
                     karyawan[j].alamat = karyawan[i].alamat;
                     karyawan[i].alamat = temp[1].alamat;
 
-                    temp[1].status = karyawan[j].status;
-                    karyawan[j].status = karyawan[i].status;
-                    karyawan[i].status = temp[1].status;
+                    temp[1].pendidikan = karyawan[j].pendidikan;
+                    karyawan[j].pendidikan = karyawan[i].pendidikan;
+                    karyawan[i].pendidikan = temp[1].pendidikan;
 
                     temp[1].jabatan = karyawan[j].jabatan;
                     karyawan[j].jabatan = karyawan[i].jabatan;
@@ -629,12 +627,12 @@ void tampil() {
 
         if (karyawan[i].nama != "")
         {
-            cout << setw(5) << left << no << setw(13) << left;
-            cout << karyawan[i].nama << setw(8) << left;
-            cout << karyawan[i].gender << setw(5) << left;
-            cout << karyawan[i].umur << setw(10) << left;
+            cout << setw(5) << left << no << setw(10) << left;
+            cout << karyawan[i].nama << setw(7) << left;
+            cout << karyawan[i].gender << setw(7) << left;
+            cout << karyawan[i].umur << setw(13) << left;
             cout << karyawan[i].alamat << setw(10) << left;
-            cout << karyawan[i].status<< setw(10) << left;
+            cout << karyawan[i].pendidikan << setw(10) << left;
             cout << karyawan[i].jabatan << endl;
             no++;
 cout << "==============================================================\n";
@@ -657,7 +655,7 @@ void parse_baris(string baris, int index)
         getline(ss_baris, karyawan[index].gender, '|');
         getline(ss_baris, karyawan[index].alamat, '|');
         getline(ss_baris, karyawan[index].jabatan, '|');
-        getline(ss_baris, karyawan[index].status, '|');
+        getline(ss_baris, karyawan[index].pendidikan, '|');
         karyawan[index].umur = atoi(tem_umur.c_str());
         index++;
     }
@@ -746,7 +744,7 @@ void simpan() {
                 outdataku << karyawan[i].gender << "|";
                 outdataku << karyawan[i].alamat << "|";
                 outdataku << karyawan[i].jabatan << "|";
-                outdataku << karyawan[i].status << "|" << endl;
+                outdataku << karyawan[i].pendidikan << "|" << endl;
             }
         }
         outdataku.close();
